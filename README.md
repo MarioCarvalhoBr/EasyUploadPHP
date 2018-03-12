@@ -9,16 +9,16 @@
 @E-mail: mariodearaujocarvalho@gmail.com
 
 @Descrição: Classe utilitária para o tratamento de Imagens com direferentes tipos e dimensões.
-Além de realizar o redimensionamento altomático das Imagens, afim de trabalhar com dimensões
+Além de realizar o redimensionamento automático das Imagens, afim de trabalhar com dimensões
 padrões e com pouca perda de proporcionalidade.
 Essa biblioteca contém diversas funcões. Entre elas:
 	01: VERIFICAR SE UM DADO ARQUIVO É IMAGEM.
 	02: REDIMENSIONAMENTO DAS IMAGENS.
-	03: SALVAR IMAGENS NO SERVIDOS.
+	03: SALVAR IMAGENS NO SERVIDOR.
 	04: GERAÇÃO DE NOME ÚNICO PARA AS IMAGENS.
-	05. PEGAR AS EXTENÇÕES DAS IMAGEM.
-	06. ACEITA 5 TIPO DE IMAGENS: 'gif', 'jpeg', 'jpg', 'png';
-	07: CONERTE AS IMAGENS PARA O SEU TIPO DE ORIGEM OU PARA UM TIPO PADRÃO CASO DESEJADO
+	05. PEGAR AS EXTENSÕES DAS IMAGENS. 
+	06. ACEITA 4 TIPOS DE IMAGENS: 'gif', 'jpeg', 'jpg', 'png';
+	07: CONVERTE AS IMAGENS PARA O SEU TIPO DE ORIGEM OU PARA UM TIPO PADRÃO CASO DESEJADO
 	
 
 </pre>
