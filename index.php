@@ -7,6 +7,7 @@
 	if(isset ($_POST['Salvar'])){
 
 	if (!empty($_FILES['imagem'])){
+		 //Passar o $_FILES, altura, largura e pasta para onde a imagem será salva.
 		 $upload = new Upload($_FILES['imagem'], 1265, 700, "_uploads/");
 		 $result =  $upload->salvar();
 
