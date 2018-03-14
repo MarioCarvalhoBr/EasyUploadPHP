@@ -26,9 +26,9 @@ Essa biblioteca contém diversas funcões. Entre elas:
 <b>ABAIXO segue uma breve DOCUMENTAÇÃO sobre a utilização da biblioteca.</b>
 
  ```php
-		/*Exemplo de utilização da biblioteca*/
+	<*Exemplo de utilização da biblioteca*/
 	
-		<?php
+	<?php
 	include_once("EasyUploadPHP.class.php");
 
 	define('TAMANHO_MAXIMO', (2 * 1024 * 1024));
@@ -37,6 +37,7 @@ Essa biblioteca contém diversas funcões. Entre elas:
 	if(isset ($_POST['Salvar'])){
 
 	if (!empty($_FILES['imagem'])){
+		 //Passar o $_FILES, altura, largura e pasta para onde a imagem será salvva.
 		 $upload = new Upload($_FILES['imagem'], 1265, 700, "_uploads/");
 		 $result =  $upload->salvar();
 
@@ -67,7 +68,7 @@ Essa biblioteca contém diversas funcões. Entre elas:
 Nome: Mário de Araújo Carvalho<br> 
 E-mail: mariodearaujocarvalho@gmail.com<br>
 GitHub: https://github.com/MarioDeAraujoCarvalho<br>
-Título: UserDataCollectorWEB
+Título: EasyUploadPHP
 <br>
 
 #Licença
