@@ -1,9 +1,8 @@
 <?php
 	// @Nome: EasyUpload PHP - Biblioteca para facilitar o processo de upload de imagens em PHP.
-	// @Versão: 1.0.0.
-
-	// @Autor: Mario de Araújo Carvalho 
-	// @E-mail: mariodearaujocarvalho@gmail.com
+	// @Versão: 1.0.1
+	// @Autor: Mario de Araújo Carvalho <mariodearaujocarvalho@gmail.com>
+	// @Link: https://github.com/MarioDeAraujoCarvalho/EasyUploadPHP
 
 	// @Descrição: Classe utilitária para o tratamento de Imagens com direferentes tipos e dimensões.
 	// Além de realizar o redimensionamento automático das Imagens, afim de trabalhar com dimensões
@@ -19,7 +18,6 @@
 
 	class Upload{
 		/*Atributos necessários para o tratamento das IMAGENS na classe.*/
-		
 		private $arquivo;// ARRAY do arquivo que será tratado como IMAGEM ou não.
 		private $altura; // NOVA altura das IMAGENS.
 		private $largura;// NOVA altura das IMAGENS.
@@ -36,7 +34,6 @@
 		/*Essa função é responsável por recuperar a extenção dos arquivos passados e retorna-lá.*/
 		/*Para criar sempre IMAGENS de um tipo UNICO basta alterar o tipo de retorno para a exenção de IMAGENS da preferência.*/
 		private function getExtensao() {
-			
 			$nomeDoArquivoExendido = explode('.', $this->arquivo['name']);//Pega o Array do Arquivo: Ex: Praia.JPG
 			$extencao = end($nomeDoArquivoExendido); //Pega o final do nome, ou seja a exetenção. Ex: JPG
 			return strtolower($extencao); //retorna a extensao 
@@ -48,28 +45,23 @@
 			$extensoesSuportadas = array('gif', 'jpeg', 'jpg', 'png'); //Extenções Suportadas
 			if (in_array($extensao, $extensoesSuportadas)){
 				return true;	
-			}else{
+			} else{
 				return false;
 			}	
 		}
 		
-		
 		/*Essa função é responsável por redimensionar a IMAGEM passada para um valor de dimensões padrões. */
 		//Largura, Altura, Tipo/Extenção, Localização da IMAGEM original
 		private function redimensionar($larguraDaImagem, $alturaDaImagem, $tipo, $localizacaoDaImagem){
-			
 			//Setando os valores padrões da NOVA IMAGEM.
 			$novaLargura = 1600;
 			$novaAltura = 540;
-			
 			//Cria uma nova IMAGEM segundo a sua Extenção com os novos valores das DIMENÇÕES.
 			//$novaImagem = imagecreatetruecolor($novaLargura, $novaAltura);
-			
 			$novaImagem = @imagecreatetruecolor($novaLargura, $novaAltura);
 			//$background_color = imagecolorallocate($novaImagem, 0, 0, 0); // 
 			//$text_color = imagecolorallocate($novaImagem, 233, 14, 91);
 			//imagestring($novaImagem, 1, 5, 5,  "A Simple Text String", $text_color);
-			
 			switch ($tipo){
 				case 1:	// gif
 					$origem = imagecreatefromgif($localizacaoDaImagem);
@@ -90,7 +82,6 @@
 					imagepng($novaImagem, $localizacaoDaImagem);
 					break;
 			}
-			
 			//Destrói as Imagens Temporárias CRIADAS da Memória do Servidor.
 			imagedestroy($novaImagem);
 			imagedestroy($origem);
@@ -98,37 +89,29 @@
 		
 		/*Essa função é responsável por SALVAR a Imagem de forma adequada baseada nas funções da classe*/
 		public function salvar(){	
-		
 			$extensao = $this->getExtensao();//.png
-			
 			//Gera um nome único e concatena com a exentão do arquivo. Ex: NomeUnico7778c85d64.JPG
 			$novo_nome = $this->gerarNomeUnico() . '.' . $extensao;
 			//Gera a Localização que a IMAGEM ficara baseado no nome da pasta passado. Ex: //fotos/NomeUnico7778c85d64.JPG
 			$destino = $this->pasta . $novo_nome;
-			
 			//Tenta mover o arquivo para a Localização criada acima.
 			if (! move_uploaded_file($this->arquivo['tmp_name'], $destino)){
-				
 				//Caso não consiga mover o arquivo.
-				return "nao_moveu";
+				return UploadErrors::E_NAO_MOVEU;
 			}else{
-				
 				//Caso consiga mover o arquivo.
 				if ($this->ehImagem($extensao)){//Verifica se o arquivo passado é uma IMAGEM.												
-					
 					//Recupera a largura, altura, tipo e atributo da IMAGEM.
 					list($largura, $altura, $tipo, $atributo) = getimagesize($destino);
-
 					//REDIMENSIONA a Nova Imagem e Armazena na pasta do servidor que foi passada por parametro.
 					$this->redimensionar($largura, $altura, $tipo, $destino);
-					
 					//Retorna o destino da Imagem criada e guardada no servidor: Ex: //fotos/NomeUnico7778c85d64.JPG
 					return $destino;
 					
 				}else{
 					//Caso o arquivo passado não seja uma IMAGEM, ele destrói o mesmo do servidor e retorna um aviso de erro.
 					unlink($destino);
-					return "nao_e_imagem";
+					return UploadErrors::E_NAO_IMAGEM;
 				}
 			}
 			
@@ -146,10 +129,31 @@
 			//Recomenda-se que se use o padrão abaixo.
 			//OBS: Começe pelo nome do seu site.
 			$nome_unico = 'MyAplicationImage'.$nome_2.''.$nome_3.''.$nome_1;
-			
 			return $nome_unico;
-			
 		}
-						
+	}
+
+	// @Nome: UploadErrors - Constants Erros to EasyUpload PHP.
+	// @Versão: 1.0.0
+	// @Autor: Leonardo Mauro <leo.mauro.desenv@gmail.com>
+	// @Descrição: Constantes de erros apresentada pela classe principal.
+	// Exemplo de uso: UploadErrors::naoImagem
+	class UploadErrors {
+		// Erros atuais
+		const E_NAO_MOVEU  = 1;
+		const E_NAO_IMAGEM = 2;
+		
+		static function getErrorMensagem($error) {
+			$msg = 'Nenhum erro foi encontrado com o código';
+			switch ($error){
+				case UploadErrors::E_NAO_MOVEU:
+					$msg = "Não foi possível mover a imagem.";
+					break;
+				case UploadErrors::E_NAO_IMAGEM:
+					$msg = "O arquivo não é uma imagem.";
+					break;
+			}
+			return 'EasyUpload PHP Erro ('.$error.'): '.$msg;
+		}
 	}
 ?>
