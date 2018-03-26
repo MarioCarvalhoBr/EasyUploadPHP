@@ -2,12 +2,12 @@
 <strong>EasyUpload PHP - Biblioteca para facilitar o processo de upload de imagens em PHP.</strong>
 
 <pre>
-@Nome: EasyUpload PHP - Biblioteca para facilitar o processo de upload de imagens em PHP.
-@Versão: 1.0.0.
-
-@Autor: Mario de Araújo Carvalho 
-@E-mail: mariodearaujocarvalho@gmail.com
-
+@Nome: EasyUpload PHP
+@Versão: 1.0.1
+@Autor: Mario de Araújo Carvalho (mariodearaujocarvalho@gmail.com)
+@Contribuidores: 
+Jhonatan Froeder (froeder3@gmail.com), 
+Leonardo Mauro (leo.mauro.desenv@gmail.com)
 @Descrição: Classe utilitária para o tratamento de Imagens com direferentes tipos e dimensões.
 Além de realizar o redimensionamento automático das Imagens, afim de trabalhar com dimensões
 padrões e com pouca perda de proporcionalidade.
@@ -19,42 +19,33 @@ Essa biblioteca contém diversas funcões. Entre elas:
 	05. PEGAR AS EXTENSÕES DAS IMAGENS. 
 	06. ACEITA 4 TIPOS DE IMAGENS: 'gif', 'jpeg', 'jpg', 'png';
 	07: CONVERTE AS IMAGENS PARA O SEU TIPO DE ORIGEM OU PARA UM TIPO PADRÃO CASO DESEJADO
-	
-
 </pre>
 
 <b>ABAIXO segue uma breve DOCUMENTAÇÃO sobre a utilização da biblioteca.</b>
 
  ```php
-	<*Exemplo de utilização da biblioteca*/
 	
 	<?php
-	include_once("EasyUploadPHP.class.php");
-
-	define('TAMANHO_MAXIMO', (2 * 1024 * 1024));
-	$caminho = "_uploads/default.png";
-
-	if(isset ($_POST['Salvar'])){
-
-	if (!empty($_FILES['imagem'])){
-		 //Passar o $_FILES, altura, largura e pasta para onde a imagem será salva.
-		 $upload = new Upload($_FILES['imagem'], 1265, 700, "_uploads/");
-		 $result =  $upload->salvar();
-
-		 if($result == 'nao_moveu'){
-			 echo('<script>window.alert("Erro ao mover imagem para o servidor!");</script>');
-		 }else if($result == 'nao_e_imagem'){
-			 echo('<script>window.alert("Não é imagem!");</script>');
-		 }else{
-			 $caminho = $result;
-		 }
-
-	}else{
-		 echo('<script>window.alert("Esse arquivo não é uma imagem!");</script>');
-	}
-}
-
-?>
+		require_once("EasyUploadPHP.class.php");
+		define('TAMANHO_MAXIMO', (2 * 1024 * 1024));
+		$caminho = "_uploads/default.png";
+		if (isset ($_POST['Salvar'])){
+		if (!empty($_FILES['imagem'])){
+			//Passar o $_FILES, altura, largura e pasta para onde a imagem será salva.
+			$upload = new Upload($_FILES['imagem'], 1265, 700, "_uploads/");
+			$result =  $upload->salvar();
+			
+			if ($result == UploadErrors::E_NAO_MOVEU){
+				echo('<script>window.alert("'.UploadErrors::getErrorMensagem(UploadErrors::E_NAO_MOVEU).'");</script>');
+			} else if ($result == UploadErrors::E_NAO_IMAGEM){
+				echo('<script>window.alert("'.UploadErrors::getErrorMensagem(UploadErrors::E_NAO_IMAGEM).'");</script>');
+			} else{
+				$caminho = $result;
+			}
+		} else{
+			echo('<script>window.alert("Esse arquivo não é uma imagem!");</script>');
+		}
+	?>
   ```
   
   </br>
@@ -73,7 +64,7 @@ Título: EasyUploadPHP
 
 #Licença
 ``` 
-        Copyright 2017 Mário de Araújo Carvalho
+        Copyright 2017 Mário de Araújo Carvalho <mariodearaujocarvalho@gmail.com>
  
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
